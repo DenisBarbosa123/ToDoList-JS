@@ -1,3 +1,3 @@
-# PWA - Vanilla JS
+# PWA - To do list
 
-An example of PWA with Vanilla JS
+A to do list application using JS, IndexedDB, CacheAPI
