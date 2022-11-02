@@ -7,7 +7,6 @@ const btnDeleteAll = document.querySelector('.header button')
 const ul = document.querySelector('ul')
 
 var itensDB = []
-var itensRetrieved = []
 
 db.version(1).stores({
     todo: "++id,list"
@@ -15,23 +14,23 @@ db.version(1).stores({
 
 db.on("populate", async () => {
     await db.todo.bulkPut([
-      [{
-        item: "Learn JS",
-        status: ""
-      },
       {
         item: "Learn English",
         status: "checked"
-      }]
+      },
+      {
+        item: "Learn JS",
+        status: ""
+      },
     ]);
-    await loadItens()
-})
+    loadItens()
+});
   
 db.open()
 
-btnDeleteAll.onclick = () => {
-  itensDB = []
-  updateDB()
+btnDeleteAll.onclick = async () => {
+  await db.todo.clear()
+  await loadItens()
 }
 
 texto.addEventListener('keypress', e => {
@@ -47,22 +46,16 @@ btnInsert.onclick = () => {
 }
 
 async function setItemDB() {
-  console.log("set itens")  
-  console.log(itensDB)
-  itensDB.push({ 'item': texto.value, 'status': '' })
-  await updateDB()
-}
-
-async function updateDB() {  
-  await db.todo.delete(1)
-  await db.todo.add(itensDB)
+  await db.todo.add({
+    item: texto.value,
+    status: ''
+  })
   await loadItens()
 }
 
 async function loadItens() {
   ul.innerHTML = "";
-  itensRetrieved = await db.todo.toArray()
-  itensDB = itensRetrieved[0]?? []
+  itensDB = await db.todo.toArray()
   console.log("Load itens")
   console.log(itensDB)
   itensDB.forEach((item, i) => {
@@ -93,7 +86,7 @@ function insertItemTela(text, status, i) {
 
 async function done(chk, i) {
   if (chk.checked) {
-    itensDB[i].status = 'checked' 
+    itensDB[i].status = 'checked'
   } else {
     itensDB[i].status = '' 
   }
@@ -102,8 +95,8 @@ async function done(chk, i) {
 }
 
 async function removeItem(i) {
-  itensDB.splice(i, 1)
-  await updateDB()
+  await db.todo.delete(i);
+  await loadItens()
 }
 
 await loadItens()
