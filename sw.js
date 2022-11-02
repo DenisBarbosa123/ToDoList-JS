@@ -6,10 +6,12 @@ const assetsToCache = [
     'https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2',
     'https://fonts.googleapis.com/css?family=Roboto:400,700',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
+    'https://fonts.googleapis.com/css2?family=Poppins&display=swap',
     'assets/images/pwa-logo.png',
     'assets/js/material.min.js',
     'assets/style.css',
     'app.js',
+    'index.js',
     'favicon.ico',
     'index.html',
     '/'
