@@ -10,25 +10,8 @@ var itensDB = []
 
 db.version(1).stores({todo: "_id"})
 
-db.on("populate", async () => {
-    await db.todo.bulkPut([
-      {
-        _id: String(Date.now()),
-        item: "Learn English",
-        status: ""
-      },
-      {
-        _id: String(Date.now()),
-        item: "Learn JS",
-        status: ""
-      },
-    ]);
-    loadItens()
-});
-  
 db.open()
 
-// Click handler for entire DIV container
 ul.addEventListener('click', async function (e) {
   if(e.target.classList.contains('bx-trash')){
     removeItem(e.target.getAttribute("id"))
@@ -83,9 +66,9 @@ function insertItemTela(text, status, id) {
   ul.appendChild(li)
 
   if (status) {
-    document.querySelector(`[id="${id}"]`).classList.add('line-through')
+    document.querySelector(`div.divLi span[id="${id}"]`).classList.add('line-through')
   } else {
-    document.querySelector(`[id="${id}"]`).classList.remove('line-through')
+    document.querySelector(`div.divLi span[id="${id}"]`).classList.remove('line-through')
   }
 
   texto.value = ''
